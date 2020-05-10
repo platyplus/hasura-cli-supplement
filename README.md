@@ -3,20 +3,6 @@
 Recurrent patterns are present in databases and areas currently covered by Hasura, for example authentication, sending of emails, soft delete, monetisation, storage rules, audit trail...
 Whereas not all the business logic of such modules cannot sometimes be embbeded inside an Hasura instance, Hasura can be of great help to ease their implementation, through pieces of metadata and SQL schema.
 
-# Requirements
-
-## Keep track of the SQL migrations and Hasura metadata
-
-## Incremental metadata
-
-## Core and Non-Core SQL/metadata
-
-## Dependencies between modules
-
-## Interface
-
-Initially the Hasura modules would be available through the Hasura CLI, but the inclusion of the following features to the console is to be considered.
-
 # Features
 
 ## Installation
@@ -59,8 +45,6 @@ A distinction is made between elements (SQL or metadata, would also be removed a
 
 <!-- ## Contributions -->
 
-# Module Directory Structure
-
 # Examples
 
 ## Embedded Module
@@ -95,3 +79,19 @@ The developer could choose not to remove the sql tables and functions for some r
 ## Microservice Module
 
 Let's imagine now a module that allows the sending of email through an external email service, the tracking of the mails sent by users, the ability to define templates... This module would require some tables, relationships and most likely event triggers or actions.
+
+# Proceedings
+
+## Interface
+
+Initially the Hasura modules would be available through the Hasura CLI, but the inclusion of the following features to the console is to be considered.
+
+## Keep track of the SQL migrations and Hasura metadata
+
+## Incremental metadata
+
+## Core and Non-Core SQL/metadata
+
+## Dependencies between modules
+
+## Module Directory Structure
