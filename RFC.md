@@ -1,4 +1,4 @@
-# RFC - Hasura Modules
+# Hasura Modules: Request for Comments
 
 ## Rationale
 
