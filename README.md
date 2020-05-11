@@ -11,7 +11,7 @@ You need to install the [Hasura CLI](https://hasura.io/docs/1.0/graphql/manual/h
 Then you can install the extended CLI with:
 
 ```
-deno install -A hasura-ext http://https://github.com/platyplus/hasura-modules/blob/master/index.ts
+deno install -A hasura-ext https://github.com/platyplus/hasura-modules/raw/master/index.ts
 ```
 
 ## Usage
