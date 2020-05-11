@@ -18,10 +18,10 @@ deno install -A hasura-ext https://github.com/platyplus/hasura-modules/raw/maste
 
 The extended Hasura CLI wraps the existing Hasura CLI commands, and add the following _modules_ commands:
 
-### `hasura-ext modules list`
+- `hasura-ext modules list`
 
-### `hasura-ext modules install <module-name>`
+- `hasura-ext modules install <module-name>`
 
-### `hasura-ext modules uninstall <module-name>`
+- `hasura-ext modules uninstall <module-name>`
 
-### `hasura-ext modules upgrade <module-name>`
+- `hasura-ext modules upgrade <module-name>`
