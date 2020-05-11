@@ -84,7 +84,7 @@ The installation proceedings would be:
 
 ### Upgrade
 
-Let's say a new version of the `soft-delete` is available. It contains new SQL migrations as well as a diff of the metadata. The developer can then upgrade the module with `hasura modules upgrade soft-delete`
+Let's say a new version of the `soft-delete` is available. It contains new SQL migrations as well as a adjustments in the metadata. The developer can then upgrade the module with `hasura modules upgrade soft-delete`.
 
 ### Uninstall
 
@@ -105,7 +105,9 @@ It would also require additional steps to follow one a module is installed, e.g.
 All the above steps are hardly automatisable. However, a module should be able to print an explanation of the next steps forward, following its installation. For example, an Hasura action is internally defined with the url `{{EMAIL_SERVICE_URL}}/send-email`, and would require an account id `EMAIL_SERVICE_ACCOUNT_ID` and an access token `EMAIL_SERVICE_ACCOUNT_TOKEN` variable that would be sent to the handler as header. The post-install text would be:
 
 ```
-In order to activate the module, you should add the following environment variables in your Hasura GraphQL Engine server:
+In order to activate the module, you should add the following
+environment variables in your Hasura GraphQL Engine server:
+
 EMAIL_SERVICE_URL=https://hasura-emailer.io
 EMAIL_SERVICE_ACCOUNT_ID=<your hasura emailer account id>
 EMAIL_SERVICE_ACCOUNT_TOKEN=<your hasura emailer account token>
