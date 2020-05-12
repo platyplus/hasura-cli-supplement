@@ -1,5 +1,4 @@
 import { ModuleCommand } from './types.ts'
-import { error } from './utils.ts'
 import list from './list.ts'
 import install from './install.ts'
 import uninstall from './uninstall.ts'
@@ -13,8 +12,8 @@ const operations: { [key: string]: ModuleCommand } = {
 }
 
 export default (command: string | number) => {
-  if (!command) error('You should specify a command')
+  if (!command) throw Error('You should specify a command')
   const operation = operations[command]
-  if (!operation) error(`Unknow module command: ${command}`)
+  if (!operation) throw Error(`Unknow module command: ${command}`)
   return operation
 }

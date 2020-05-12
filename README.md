@@ -11,7 +11,7 @@ You need to install [Deno](https://deno.land/) first.
 Then you can install the extended CLI with:
 
 ```
-deno install -A hasura-ext https://github.com/platyplus/hasura-modules/raw/master/index.ts
+deno install -A --unstable hasura-ext https://github.com/platyplus/hasura-modules/raw/master/index.ts
 ```
 
 Note: the script installs the Hasura CLI if not installed already.

@@ -1,8 +1,10 @@
 import { ModuleCommand } from './types.ts'
-import repository from './repository.ts'
+import { getAllModules } from './repository.ts'
 
 const list: ModuleCommand = async ({ options }) => {
-  console.log('list modules')
-  console.log(repository)
+  console.log('NAME\t\tDESCRIPTION')
+  for (const module of await getAllModules()) {
+    console.log('%s\t\t%s', module.name, module.description)
+  }
 }
 export default list

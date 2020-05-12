@@ -1,7 +1,11 @@
-const hasuraCli = async (args: string | string[], mute = true) => {
+const hasuraCli = async (
+  args: string | string[],
+  mute = true,
+  options: { [key: string]: string } = {}
+) => {
   if (typeof args === 'string') args = args.split(' ')
   const cli = Deno.run({
-    cmd: ['hasura', ...args],
+    cmd: ['hasura', ...args, ...Object.entries(options).flat()],
     stdout: mute ? 'null' : 'inherit',
   })
   await cli.status()
