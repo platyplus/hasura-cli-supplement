@@ -135,7 +135,7 @@ Initially the Hasura modules would be available through the Hasura CLI, but the 
 
 ### Module Directory Structure
 
-## Priorisitaion
+## Prioritisation
 
 Following MoSCoW:
 
