@@ -1,7 +1,7 @@
 import { expandGlob, exists } from 'https://deno.land/std/fs/mod.ts'
 import { parse } from 'https://deno.land/std/encoding/yaml.ts'
 
-import { HOME_DIR } from './utils.ts'
+import { HOME_DIR, error } from './utils.ts'
 import { Module } from './types.ts'
 
 const REPO_DIR = `${HOME_DIR}/.hasura-modules`
@@ -16,7 +16,7 @@ try {
   })
   await git.status()
   git.close()
-} catch {
+} catch (error) {
   const git = Deno.run({
     cmd: ['git', 'clone', '--quiet', MODULES_REPO, REPO_DIR],
     stdout: 'null',
@@ -29,9 +29,13 @@ export const getModule = async (name: string): Promise<Module> => {
   try {
     const decoder = new TextDecoder('utf-8')
     const data = await Deno.readFile(`${REPO_DIR}/${name}/module.yaml`)
-    return { ...(parse(decoder.decode(data)) as Module), name }
-  } catch {
-    throw Error(`Module not found: ${name}`)
+    return {
+      ...(parse(decoder.decode(data)) as Module),
+      name,
+      path: `${REPO_DIR}/${name}`,
+    }
+  } catch (e) {
+    return error(`Module not found: ${name}`)
   }
 }
 

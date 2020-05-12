@@ -6,6 +6,7 @@ export type ModuleCommand = (params: {
 }) => Promise<void>
 
 export type Module = {
+  path: string
   name: string
   description: string
 }

@@ -15,7 +15,7 @@ const hasuraCli = async (
 // * Check if the Hasura CLI is installed, installs it if not
 try {
   await hasuraCli('version')
-} catch {
+} catch (error) {
   const bash = Deno.run({ cmd: ['bash'], stdin: 'piped' })
   const installScript = await fetch(
     'https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh'

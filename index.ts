@@ -2,6 +2,7 @@ import { parse } from 'https://deno.land/std/flags/mod.ts'
 import { GeneralOptions } from './types.ts'
 import hasuraCli from './hasura-cli.ts'
 import operations from './operations.ts'
+import { error } from './utils.ts'
 
 const generalOptions = async ({
   project,
@@ -13,8 +14,8 @@ const generalOptions = async ({
   try {
     const dirInfo = await Deno.stat(project)
     if (!dirInfo.isDirectory) throw Error(`${project} is not a directory`)
-  } catch {
-    throw Error(`${project} does not exist`)
+  } catch (e) {
+    return error(`${project} does not exist`)
   }
   return {
     project,
