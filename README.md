@@ -1,4 +1,4 @@
-# Extended Hasura CLI with Modules
+# Hasura CLI supplemented with Modules
 
 This is a proof of concept following this [RFC](RFC.md).
 
