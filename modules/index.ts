@@ -1,3 +1,7 @@
+import { parse } from 'https://deno.land/std/flags/mod.ts'
+
+import { generalOptions } from '../utils.ts'
+
 import { ModuleCommand } from './types.ts'
 import list from './list.ts'
 import install from './install.ts'
@@ -11,9 +15,22 @@ const operations: { [key: string]: ModuleCommand } = {
   upgrade,
 }
 
-export default (command: string | number) => {
+const getOperation = (command: string | number) => {
   if (!command) throw Error('You should specify a command')
   const operation = operations[command]
   if (!operation) throw Error(`Unknow module command: ${command}`)
   return operation
 }
+
+const modulesCommand = async (args: string[]) => {
+  const {
+    _: [, command, name],
+    ...options
+  } = parse(args)
+  getOperation(command)({
+    moduleName: name as string,
+    options: await generalOptions(options),
+  })
+}
+
+export default modulesCommand

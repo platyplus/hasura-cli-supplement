@@ -3,8 +3,8 @@ import { copy } from 'https://deno.land/std/fs/mod.ts'
 
 import { ModuleCommand } from './types.ts'
 import { getModule } from './repository.ts'
-import { getHasuraConfig, error } from './utils.ts'
-import hasuraCli from './hasura-cli.ts'
+import { getHasuraConfig, error } from '../utils.ts'
+import hasuraCli from '../hasura-cli.ts'
 
 const install: ModuleCommand = async ({ moduleName, options }) => {
   if (!moduleName) throw Error('You should specify a module')

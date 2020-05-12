@@ -1,7 +1,7 @@
 import { expandGlob, exists } from 'https://deno.land/std/fs/mod.ts'
 import { parse } from 'https://deno.land/std/encoding/yaml.ts'
 
-import { HOME_DIR, error } from './utils.ts'
+import { HOME_DIR, error } from '../utils.ts'
 import { Module } from './types.ts'
 
 const REPO_DIR = `${HOME_DIR}/.hasura-modules`
