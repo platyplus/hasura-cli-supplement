@@ -1,6 +1,6 @@
 # Hasura Modules: Request for Comments
 
-TL;DR: [Proof of Concept](https://github.com/platyplus/hasura-modules)
+TL;DR: [Proof of Concept](https://github.com/platyplus/hasura-cli-supplement)
 
 ## Rationale
 
