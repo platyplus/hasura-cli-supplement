@@ -24,7 +24,7 @@ const generalOptions = async ({
   }
 }
 
-if (Deno.args[0] === 'module') {
+if (Deno.args[0] === 'modules') {
   const {
     _: [, command, name],
     ...options
