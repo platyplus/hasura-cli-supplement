@@ -6,13 +6,15 @@ You can follow the discussion in the [issue in the Hasura GE repository]().
 
 ## Installation
 
-You need to install the [Hasura CLI](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/install-hasura-cli.html) and [Deno](https://deno.land/) first.
+You need to install [Deno](https://deno.land/) first.
 
 Then you can install the extended CLI with:
 
 ```
 deno install -A hasura-ext https://github.com/platyplus/hasura-modules/raw/master/index.ts
 ```
+
+Note: the script installs the Hasura CLI if not installed already.
 
 ## Usage
 

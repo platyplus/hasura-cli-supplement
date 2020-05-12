@@ -1,5 +1,7 @@
 # Hasura Modules: Request for Comments
 
+TL;DR: [Proof of Concept](https://github.com/platyplus/hasura-modules)
+
 ## Rationale
 
 Recurrent patterns are present in databases and areas currently covered by Hasura, for example sending of emails, calendars, authentication, soft delete, payment, storage, audit trail...
