@@ -1,6 +1,6 @@
 # Hasura CLI supplemented with Modules
 
-This is a proof of concept following this [RFC](RFC.md).
+This is a proof of concept following this [RFC](RFC.md). It works together with this [module repository](https://github.com/platyplus/hasura-modules).
 
 You can follow the discussion in the [issue in the Hasura GE repository]().
 
