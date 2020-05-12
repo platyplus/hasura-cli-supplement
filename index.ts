@@ -1,4 +1,5 @@
 import { parse } from 'https://deno.land/std/flags/mod.ts'
+
 import { GeneralOptions } from './types.ts'
 import hasuraCli from './hasura-cli.ts'
 import operations from './operations.ts'

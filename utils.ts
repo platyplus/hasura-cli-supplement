@@ -1,4 +1,5 @@
 import { parse } from 'https://deno.land/std/encoding/yaml.ts'
+
 import { HasuraConfig } from './types.ts'
 
 //   TODO use Deno.dir('home') when stable
