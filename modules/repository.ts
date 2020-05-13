@@ -9,7 +9,7 @@ const MODULES_REPO = 'https://github.com/platyplus/hasura-modules.git'
 
 try {
   const dirInfo = await Deno.stat(REPO_DIR)
-  if (!dirInfo.isDirectory) throw Error(`${REPO_DIR} is not a directory`)
+  if (!dirInfo.isDirectory) error(`${REPO_DIR} is not a directory`)
   const git = Deno.run({
     cmd: ['git', '-C', REPO_DIR, 'pull', '--quiet'],
     stdout: 'null',

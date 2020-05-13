@@ -36,7 +36,7 @@ export const generalOptions = async ({
   project = project || Deno.cwd()
   try {
     const dirInfo = await Deno.stat(project)
-    if (!dirInfo.isDirectory) throw Error(`${project} is not a directory`)
+    if (!dirInfo.isDirectory) return error(`${project} is not a directory`)
   } catch (e) {
     return error(`${project} does not exist`)
   }

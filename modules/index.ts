@@ -1,6 +1,6 @@
 import { parse } from 'https://deno.land/std/flags/mod.ts'
 
-import { generalOptions } from '../utils.ts'
+import { generalOptions, error } from '../utils.ts'
 
 import { ModuleCommand } from './types.ts'
 import list from './list.ts'
@@ -16,9 +16,9 @@ const operations: { [key: string]: ModuleCommand } = {
 }
 
 const getOperation = (command: string | number) => {
-  if (!command) throw Error('You should specify a command')
+  if (!command) return error('You should specify a command')
   const operation = operations[command]
-  if (!operation) throw Error(`Unknow module command: ${command}`)
+  if (!operation) return error(`Unknow module command: ${command}`)
   return operation
 }
 

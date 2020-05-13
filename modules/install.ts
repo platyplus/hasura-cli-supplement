@@ -1,18 +1,13 @@
 import { stringify } from 'https://deno.land/std/encoding/yaml.ts'
-import {
-  copy,
-  walk,
-  ensureDir,
-  ensureFile,
-} from 'https://deno.land/std/fs/mod.ts'
+import { copy, walk, ensureFile } from 'https://deno.land/std/fs/mod.ts'
 
-import { ModuleCommand } from './types.ts'
-import { getModule } from './repository.ts'
 import { getHasuraConfig, error } from '../utils.ts'
 import hasuraCli from '../hasura-cli.ts'
+import { ModuleCommand } from './types.ts'
+import { getModule } from './repository.ts'
 
 const install: ModuleCommand = async ({ moduleName, options }) => {
-  if (!moduleName) throw Error('You should specify a module')
+  if (!moduleName) return error('You should specify a module')
   const module = await getModule(moduleName)
   console.log('installing module:', moduleName)
   const hasuraConfig = await getHasuraConfig(options.project)
