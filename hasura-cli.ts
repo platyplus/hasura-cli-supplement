@@ -5,7 +5,13 @@ const hasuraCli = async (
 ) => {
   if (typeof args === 'string') args = args.split(' ')
   const cli = Deno.run({
-    cmd: ['hasura', ...args, ...Object.entries(options).flat()],
+    cmd: [
+      'hasura',
+      ...args,
+      ...Object.entries(options)
+        .map<string[]>(([key, value]) => [`--${key}`, value])
+        .flat(),
+    ],
     stdout: mute ? 'null' : 'inherit',
   })
   await cli.status()

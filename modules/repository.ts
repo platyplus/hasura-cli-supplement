@@ -11,7 +11,7 @@ try {
   const dirInfo = await Deno.stat(REPO_DIR)
   if (!dirInfo.isDirectory) throw Error(`${REPO_DIR} is not a directory`)
   const git = Deno.run({
-    cmd: ['git', '-C', REPO_DIR, 'pull'],
+    cmd: ['git', '-C', REPO_DIR, 'pull', '--quiet'],
     stdout: 'null',
   })
   await git.status()

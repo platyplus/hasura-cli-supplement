@@ -19,7 +19,9 @@ export const getHasuraConfig = async (path: string): Promise<HasuraConfig> => {
   try {
     const decoder = new TextDecoder('utf-8')
     const data = await Deno.readFile(`${path}/config.yaml`)
-    return parse(decoder.decode(data)) as HasuraConfig
+    const config = parse(decoder.decode(data)) as HasuraConfig
+    if (!config.version) config.version = 2
+    return config
   } catch (e) {
     return error(`Cannot load Hasura config.yaml`)
   }

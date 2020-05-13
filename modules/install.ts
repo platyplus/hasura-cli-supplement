@@ -1,5 +1,10 @@
 import { stringify } from 'https://deno.land/std/encoding/yaml.ts'
-import { copy } from 'https://deno.land/std/fs/mod.ts'
+import {
+  copy,
+  walk,
+  ensureDir,
+  ensureFile,
+} from 'https://deno.land/std/fs/mod.ts'
 
 import { ModuleCommand } from './types.ts'
 import { getModule } from './repository.ts'
@@ -14,37 +19,43 @@ const install: ModuleCommand = async ({ moduleName, options }) => {
 
   // * Create a temporary project directory
   const tempProject = await Deno.makeTempDir()
-  // * Create a valid config.yaml file
+
+  // * Create a valid config.yaml file: only modules written in config v1 work
   await Deno.writeFile(
     `${tempProject}/config.yaml`,
     new TextEncoder().encode(stringify({ ...hasuraConfig, version: 1 }))
   )
+
   // * Copy the module's migrations
   try {
     await copy(`${module.path}/migrations`, `${tempProject}/migrations`)
   } catch (e) {
     return error(`The module '${moduleName}' has no 'migrations' directory!`)
   }
+
   // * Run the module's migrations
-  // TODO mute, no not the errors - and stop if errors
+  // TODO stop if errors
   await hasuraCli('migrate apply', false, { ...options, project: tempProject })
-  if (hasuraConfig.version == 1) {
-    console.log('Version 1') // TODO remove
-    // * copy the module's migration into the migrations of the project
-    // TODO use fs.walk (and then filter files depending on config v1 / config v2)
-    await copy(`${module.path}/migrations`, `${options.project}/migrations`, {
-      overwrite: true,
-    })
-  } else {
-    console.warn(
-      'The installation of a module in a config v2 projet is not available yet'
-    )
+
+  // * Set the file extensions to copy to the project migrations
+  const exts = ['sql']
+  if (hasuraConfig.version == 1) exts.push('yaml')
+
+  // * Add/replace the migrations files to the project
+  for await (const entry of walk(`${module.path}/migrations`, {
+    includeDirs: false,
+    exts,
+  })) {
+    const newPath = entry.path.replace(module.path, options.project)
+    await ensureFile(newPath)
+    await copy(entry.path, newPath, { overwrite: true })
   }
 
-  console.log(tempProject)
-  // await Deno.remove(tempDir, { recursive: true });
+  // * Export updated metadata to the project
+  await hasuraCli('metadata export', false, options)
 
-  console.warn('unfinished script')
+  // * Delete temporaty project directory
+  await Deno.remove(tempProject, { recursive: true })
 }
 
 export default install
