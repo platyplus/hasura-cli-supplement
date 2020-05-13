@@ -1,6 +1,6 @@
 const hasuraCli = async (
   args: string | string[],
-  mute = true,
+  log: boolean | 'error' = 'error',
   options: { [key: string]: string } = {}
 ) => {
   if (typeof args === 'string') args = args.split(' ')
@@ -12,15 +12,17 @@ const hasuraCli = async (
         .map<string[]>(([key, value]) => [`--${key}`, value])
         .flat(),
     ],
-    stdout: mute ? 'null' : 'inherit',
+    stdout: log === true ? 'inherit' : 'null',
+    stderr: !!log ? 'inherit' : 'null',
   })
-  await cli.status()
+  const { code } = await cli.status()
   cli.close()
+  if (code !== 0) throw new Error()
 }
 
 // * Check if the Hasura CLI is installed, installs it if not
 try {
-  await hasuraCli('version')
+  await hasuraCli('version', false)
 } catch (error) {
   const bash = Deno.run({ cmd: ['bash'], stdin: 'piped' })
   const installScript = await fetch(

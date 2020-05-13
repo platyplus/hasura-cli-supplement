@@ -1,25 +1,17 @@
-import { stringify } from 'https://deno.land/std/encoding/yaml.ts'
 import { copy, walk, ensureFile } from 'https://deno.land/std/fs/mod.ts'
 
 import { getHasuraConfig, error } from '../utils.ts'
 import hasuraCli from '../hasura-cli.ts'
 import { ModuleCommand } from './types.ts'
 import { getModule } from './repository.ts'
+import { createTempProject, applyMigrations } from './utils.ts'
 
 const install: ModuleCommand = async ({ moduleName, options }) => {
   if (!moduleName) return error('You should specify a module')
   const module = await getModule(moduleName)
   console.log('installing module:', moduleName)
   const hasuraConfig = await getHasuraConfig(options.project)
-
-  // * Create a temporary project directory
-  const tempProject = await Deno.makeTempDir()
-
-  // * Create a valid config.yaml file: only modules written in config v1 work
-  await Deno.writeFile(
-    `${tempProject}/config.yaml`,
-    new TextEncoder().encode(stringify({ ...hasuraConfig, version: 1 }))
-  )
+  const tempProject = await createTempProject(hasuraConfig)
 
   // * Copy the module's migrations
   try {
@@ -29,8 +21,7 @@ const install: ModuleCommand = async ({ moduleName, options }) => {
   }
 
   // * Run the module's migrations
-  // TODO stop if errors
-  await hasuraCli('migrate apply', false, { ...options, project: tempProject })
+  await applyMigrations(tempProject, options)
 
   // * Set the file extensions to copy to the project migrations
   const exts = ['sql']
@@ -47,7 +38,12 @@ const install: ModuleCommand = async ({ moduleName, options }) => {
   }
 
   // * Export updated metadata to the project
-  await hasuraCli('metadata export', false, options)
+  try {
+    await hasuraCli('metadata export', 'error', options)
+  } catch {
+    await Deno.remove(tempProject, { recursive: true })
+    return error('Impossible to export metadata.')
+  }
 
   // * Delete temporaty project directory
   await Deno.remove(tempProject, { recursive: true })
