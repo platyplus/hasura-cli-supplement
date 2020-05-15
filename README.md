@@ -18,7 +18,7 @@ Note: the script installs the Hasura CLI if not installed already.
 
 ## Usage
 
-The Hasura CLI supplement wraps the existing Hasura CLI commands, and add the following _modules_ commands:
+The Hasura CLI supplement wraps and extends Hasura CLI with the following _modules_ commands:
 
 - `hasura-sup modules list`
 
