@@ -9,6 +9,7 @@ import { createTempProject, applyMigrations } from './utils.ts'
 const install: ModuleCommand = async ({ moduleName, options }) => {
   if (!moduleName) return error('You should specify a module')
   const module = await getModule(moduleName)
+  if (module.install?.pre) console.log(module.install.pre)
   console.log(`Installing module: ${moduleName}...`)
   const hasuraConfig = await getHasuraConfig(options.project)
   const tempProject = await createTempProject(hasuraConfig)
