@@ -132,7 +132,7 @@ Some parts of the module sql/metadata may need to be optionnaly kept while unins
 
 ### Dependencies between modules
 
-Some modules may eventually require other modules. The installation and update of a module should trigger a preliminary check of installed modules to the required version, and install them when needed. This process would be recursive.
+Some modules may eventually require other modules. The installation and update of a module could trigger a preliminary check of installed modules to the required version, and install them when needed. This process would be recursive.
 
 ### Module Structure
 
