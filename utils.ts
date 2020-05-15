@@ -1,11 +1,5 @@
 import { parse } from 'https://deno.land/std/encoding/yaml.ts'
-
-type GeneralOptions = { project: string; [key: string]: any }
-
-type HasuraConfig = {
-  version?: 1 | 2
-  metadata_directory?: string
-}
+import { HasuraConfig, GeneralOptions } from './types.ts'
 
 //   TODO use Deno.dir('home') when stable
 export const HOME_DIR = Deno.env.get('HOME')
