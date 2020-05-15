@@ -2,7 +2,7 @@
 
 This is a proof of concept following this [RFC](RFC.md). It works together with this [module repository](https://github.com/platyplus/hasura-modules).
 
-You can follow the discussion in the [issue in the Hasura GE repository](#).
+You can follow the discussion in the [issue in the Hasura GE repository](https://github.com/hasura/graphql-engine/issues/4783).
 
 ## Installation
 

@@ -24,6 +24,7 @@ The module installation should run series of sql migrations initially generated 
 ### Upgrade
 
 `hasura modules upgrade <module-name>`
+
 Modules should be able to be upgraded, meaning the underlying sql design elements can be altered or dropped, and new ones can be created.
 
 The module metadata metadata should be upgradable too, which implies an incremental metadata system that exists in Hasura console config v1, but not anymore on config v2.
@@ -32,31 +33,29 @@ The module metadata metadata should be upgradable too, which implies an incremen
 
 Unintall a module i.e. its Postgres structure and hasura metadata:
 
-`hasura modules uninstall <module-name>`
+`hasura modules uninstall <module-name> --remove-externals=<none|all|sql|metadata>`
 
 Some migrations in the module can be flagged as "external", meaning that they will possibly interacting direcly with the rest of the application, or that they should be kept even after uninstalling the module, for instance when some key data is stored in some of the installed tables.
 
 Example: a `user` table in an authentication module, that is most likely going to be re-used in the rest of the application.
 
-The developer can then specify what to do with such external migrations:
-`hasura modules uninstall <module-name> --remove-externals=<none|all|sql|metadata>`
-By default, externals would be set to 'all'.
+The developer can then specify what to do with such external migrations with the `--remove-externals` option. By default, externals would be set to 'all'.
 
-### Public repository
-
-A public repository that would contain the verified/recommended modules should be maintained, so they are available out of the box with the Hasura CLI. Community contributions should also be taken into account in a dedicated category.
-
-#### List
+### List
 
 `hasura modules list`
 
-#### Module information
+### Module information
 
 `hasura modules show <module-name>`
 
+### Public repository
+
+A public repository that would contain the verified/recommended modules should be maintained, so they are available out of the box with the Hasura CLI. Community contributions should also be taken into account in a dedicated category. Here is [a working example with two modules](https://github.com/platyplus/hasura-modules) of what it would look like.
+
 ## Examples
 
-### Embedded Module
+### Example 1: Embedded Module
 
 Some modules won't need any external service to be fully functionnal with Postgres and Hasura.
 
@@ -67,11 +66,9 @@ _(Note: this way is not necessarily the best to implement soft deletion, and is 
 
 #### Installation
 
-The installation proceedings would be:
-
 - Ensure Hasura is running correctly and that the project `config.yaml` is correctly configured
 - `hasura modules install soft-delete`
-  - This command would run SQL migrations that create the necessary tables, functions, etc in a dedicated `soft_delete` Postgres schema, and add the corresponding operations to the existing Hasura metadata.
+  - This would run SQL migrations that create the necessary tables, functions, etc in a dedicated `soft_delete` Postgres schema, and add the corresponding operations to the existing Hasura metadata.
   - The corresponding SQL migrations would be added to the `migrations` directory
   - The corresponding Hasura metadata would be added to the `metadata` directory if using config v2.
 
@@ -81,11 +78,9 @@ Let's say a new version of the `soft-delete` is available. It contains new SQL m
 
 #### Uninstall
 
-The command would be `hasura modules uninstall soft-delete`.
+`hasura modules uninstall soft-delete`
 
-The developer could choose not to remove the sql tables and functions for some reason with `hasura modules uninstall --only-metadata`. It would in that case update only the Hasura metadata.
-
-### Microservice Module
+### Example 2: Microservice Module
 
 Let's imagine now a module that allows the sending of email through an external email service, the tracking of the mails sent by users, the ability to define templates... This module would require some tables, relationships and most likely event triggers or actions.
 
@@ -141,21 +136,21 @@ module-name/
   config.yaml
     description:
     repo: http://website-or-repo.org
-    install:
+    install: # Optional
       pre: message shown at the beginning of the installation process
       post: message shown at the end of the installation process
-    uninstall:
+    uninstall: # Optional
       pre: message shown at the beginning of the uninstallation process
       post: message shown at the end of the uninstallation process
-    upgrade:
+    upgrade: # Optional
       pre: message shown at the beginning of the upgrade process
       post: message shown at the end of the upgrade process
-    external:
+    external: # Optional
       - <migration-number-A>
       - <migration-number-B>
-    versions:
+    versions: # Optional
       - <version-tag>: <migration-number>
-    dependencies:
+    dependencies: # Optional
       - module: <module-name>
         version: <version-tag> # Optional
   migrations/
