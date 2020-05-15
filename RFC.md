@@ -179,8 +179,9 @@ Following MoSCoW:
   - User Interface through the console
   - Standard / third-party (contrib) modules
   - Modules can be written in both config v1 and config v2
-- Could
   - 'Extended' sql and metadata
+- Could
+  - dependencies between modules
 - Won't
 
 ## Proof of Concept
