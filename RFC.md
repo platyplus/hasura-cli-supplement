@@ -159,7 +159,7 @@ module-name/
       - module: <module-name>
         version: <version-tag> # Optional
   migrations/
-    <migration-number>_module_<module-name>_migration_desc
+    <migration-number>_module_<module-name>_migration_description
       up.sql
       up.yaml
       down.sql
