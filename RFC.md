@@ -44,7 +44,7 @@ By default, externals would be set to 'all'.
 
 ### Public repository
 
-A public repository that would contain the verified/recommended modules should be maintained, so they are available out of the box with the Hasura CLI. An optional 'contrib' section should also be considered.
+A public repository that would contain the verified/recommended modules should be maintained, so they are available out of the box with the Hasura CLI. Community contributions should also be taken into account in a dedicated category.
 
 #### List
 
