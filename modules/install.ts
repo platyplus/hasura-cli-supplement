@@ -9,7 +9,9 @@ import { createTempProject, applyMigrations } from './utils.ts'
 const install: ModuleCommand = async ({ moduleName, options }) => {
   if (!moduleName) return error('You should specify a module')
   const module = await getModule(moduleName)
-  console.log('installing module:', moduleName)
+  if (module.install?.pre) console.log(module.install.pre)
+  console.log('TODO prompt')
+  console.log(`Installing module: ${moduleName}...`)
   const hasuraConfig = await getHasuraConfig(options.project)
   const tempProject = await createTempProject(hasuraConfig)
 
@@ -47,6 +49,8 @@ const install: ModuleCommand = async ({ moduleName, options }) => {
 
   // * Delete temporaty project directory
   await Deno.remove(tempProject, { recursive: true })
+  console.log(`Module ${moduleName} installed.`)
+  if (module.install?.post) console.log(module.install.post)
 }
 
 export default install
