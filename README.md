@@ -25,5 +25,3 @@ The Hasura CLI supplement wraps the existing Hasura CLI commands, and add the fo
 - `hasura-sup modules install <module-name>`
 
 - `hasura-sup modules uninstall <module-name>`
-
-- `hasura-sup modules upgrade <module-name>`

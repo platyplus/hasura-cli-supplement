@@ -34,25 +34,17 @@ Unintall a module i.e. its Postgres structure and hasura metadata:
 
 `hasura modules uninstall <module-name>`
 
-As the developer using a module may want to keep the data that would have been handled through the module, an option should be available so only metadata is removed, not sql elements such as tables etc:
+Some migrations in the module can be flagged as "external", meaning that they will possibly interacting direcly with the rest of the application, or that they should be kept even after uninstalling the module, for instance when some key data is stored in some of the installed tables.
 
-`hasura modules uninstall <module-name> --only-metadata`
+Example: a `user` table in an authentication module, that is most likely going to be re-used in the rest of the application.
 
-Some sql or metadata elements may become essential to the functionning of the application event when the module is uninstalled, for instance a `user` table in an authentication module, that is most likely going to be re-used in the rest of the applicaiton.
-
-Modules should be able to define such a distinction between 'core' and 'nnon-core' sql or metadata elements so the developper can decide to keep the elements that would stay in the database:
-
-`hasura modules uninstall <module-name> --only-core`
-
-### Inconsistencies & safety
-
-`hasura modules status <module-name>`
-
-`hasura modules repare <module-name>`
-
-"dry run"
+The developer can then specify what to do with such external migrations:
+`hasura modules uninstall <module-name> --remove-externals=<none|all|sql|metadata>`
+By default, externals would be set to 'all'.
 
 ### Public repository
+
+A public repository that would contain the verified/recommended modules should be maintained, so they are available out of the box with the Hasura CLI. An optional 'contrib' section should also be considered.
 
 #### List
 
@@ -61,9 +53,6 @@ Modules should be able to define such a distinction between 'core' and 'nnon-cor
 #### Module information
 
 `hasura modules show <module-name>`
-
-<!-- ## Contributions -->
-<!-- TODO standard / third-party modules -->
 
 ## Examples
 
@@ -94,7 +83,7 @@ Let's say a new version of the `soft-delete` is available. It contains new SQL m
 
 The command would be `hasura modules uninstall soft-delete`.
 
-The developer could choose not to remove the sql tables and functions for some reasong with `hasura modules uninstall --only-metadata`. It would in that case update only the Hasura metadata.
+The developer could choose not to remove the sql tables and functions for some reason with `hasura modules uninstall --only-metadata`. It would in that case update only the Hasura metadata.
 
 ### Microservice Module
 
@@ -127,13 +116,55 @@ Initially the Hasura modules would be available through the Hasura CLI, but the 
 
 ### Keep track of the SQL migrations and Hasura metadata
 
+As a start, this feature could use the existing Hasura version numbering system. Although it is very unlikely two migrations would once get the same timestamp, we could consider adding a `module` column to the `hdb_catalog.schema_migrations` table.
+
 ### Incremental metadata
 
-### Core and Non-Core SQL/metadata
+It has been mentionned modules could be implemented in adding an `hasura metadata import` command to a config v2 project. While it would work well for module installation, it may become a problem when upgrading or uninstalling a module. If an upgrade changes the existing metadata of a module, a simple `import` would likely keep obsolete parts of the metadata, or create inconsistencies. In a similar way, a module removal will create challenges in the identification of the metadata elements to pull out of the project, and the ones to keep.
+
+We could consider a CLI command that would generate the union of the intersection of metadata files from two separate versions. However module maintenance may become overcomplicated when the number of version increases.
+
+The simplest way to proceed would therefore to use the existing config v1 incremental metadata system, and to accept the caveat of developing modules in config v1 while finding a more suitable solution.
+
+### External SQL/metadata
+
+Some parts of the module sql/metadata may need to be optionnaly kept while uninstalling a module. Such parts should be isolated in granular migrations, and flagged in the configuration file of the module, so the user can decide to keep them or not when uninstalling a module.
 
 ### Dependencies between modules
 
-### Module Directory Structure
+Some modules may eventually require other modules. The installation and update of a module should trigger a preliminary check of installed modules to the required version, and install them when needed. This process would be recursive.
+
+### Module Structure
+
+```yaml
+module-name/
+  config.yaml
+    description:
+    repo: http://website-or-repo.org
+    install:
+      pre: message shown at the beginning of the installation process
+      post: message shown at the end of the installation process
+    uninstall:
+      pre: message shown at the beginning of the uninstallation process
+      post: message shown at the end of the uninstallation process
+    upgrade:
+      pre: message shown at the beginning of the upgrade process
+      post: message shown at the end of the upgrade process
+    external:
+      - <migration-number-A>
+      - <migration-number-B>
+    versions:
+      - <version-tag>: <migration-number>
+    dependencies:
+      - module: <module-name>
+        version: <version-tag> # Optional
+  migrations/
+    <migration-number>_module_<module-name>_migration_desc
+      up.sql
+      up.yaml
+      down.sql
+      down.yaml
+```
 
 ## Prioritisation
 
@@ -144,13 +175,12 @@ Following MoSCoW:
   2. install
   3. uninstall
   4. upgrade
-  - Compatibility with both config v1 and config v2
 - Should
   - User Interface through the console
-  - standard / third-party modules
+  - Standard / third-party (contrib) modules
+  - Modules can be written in both config v1 and config v2
 - Could
-  - core/non-core metadata/sql design elements
-  - Uninstall only metadata
+  - 'Extended' sql and metadata
 - Won't
 
 ## Proof of Concept
