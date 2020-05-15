@@ -9,8 +9,6 @@ import { createTempProject, applyMigrations } from './utils.ts'
 const uninstall: ModuleCommand = async ({ moduleName, options }) => {
   if (!moduleName) return error('You should specify a module')
   const module = await getModule(moduleName)
-  if (module.uninstall?.pre) console.log(module.uninstall.pre)
-  console.log('TODO prompt')
   console.log(`Uninstalling module: ${moduleName}...`)
   const hasuraConfig = await getHasuraConfig(options.project)
   const tempProject = await createTempProject(hasuraConfig)
