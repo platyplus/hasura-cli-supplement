@@ -1,4 +1,6 @@
 import { copy, expandGlob } from 'https://deno.land/std/fs/mod.ts'
+import * as log from 'https://deno.land/std/log/mod.ts'
+
 import { getHasuraConfig, error } from '../utils.ts'
 import { ModuleCommand } from './types.ts'
 
@@ -41,10 +43,10 @@ const uninstall: ModuleCommand = async ({ moduleName, options }) => {
       migrationsOK.forEach((path) => console.log(path))
     }
     if (migrationsKO.length) {
-      console.warn(
+      log.warning(
         `Some migrations have not been found in ${module.path}/migrations:`
       )
-      migrationsKO.forEach((path) => console.warn(path))
+      migrationsKO.forEach((path) => log.warning(path))
     }
   }
 

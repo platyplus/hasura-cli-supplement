@@ -1,11 +1,13 @@
 import { parse } from 'https://deno.land/std/encoding/yaml.ts'
+import * as log from 'https://deno.land/std/log/mod.ts'
+
 import { HasuraConfig, GeneralOptions } from './types.ts'
 
 //   TODO use Deno.dir('home') when stable
 export const HOME_DIR = Deno.env.get('HOME')
 
 export const error = (message: string): never => {
-  console.error(message)
+  log.error(message)
   Deno.exit(1)
 }
 
@@ -21,7 +23,7 @@ export const getHasuraConfig = async (path: string): Promise<HasuraConfig> => {
   }
 }
 
-export const generalOptions = async ({
+export const defaultOptions = async ({
   project,
   ...other
 }: {

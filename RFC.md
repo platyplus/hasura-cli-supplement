@@ -181,4 +181,4 @@ Following MoSCoW:
 
 ## Proof of Concept
 
-[A proof of concept is available here](https://github.com/platyplus/hasura-modules)
+[A proof of concept is available here](https://github.com/platyplus/hasura-cli-supplement)

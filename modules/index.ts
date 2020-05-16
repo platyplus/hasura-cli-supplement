@@ -1,6 +1,6 @@
 import { parse } from 'https://deno.land/std/flags/mod.ts'
 
-import { generalOptions, error } from '../utils.ts'
+import { defaultOptions, error } from '../utils.ts'
 
 import { ModuleCommand } from './types.ts'
 import list from './list.ts'
@@ -29,7 +29,7 @@ const modulesCommand = async (args: string[]) => {
   } = parse(args)
   getOperation(command)({
     moduleName: name as string,
-    options: await generalOptions(options),
+    options: await defaultOptions(options),
   })
 }
 
