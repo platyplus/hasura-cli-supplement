@@ -27,7 +27,7 @@ The module installation should run series of sql migrations initially generated 
 
 Modules should be able to be upgraded, meaning the underlying sql design elements can be altered or dropped, and new ones can be created.
 
-The module metadata metadata should be upgradable too, which implies an incremental metadata system that exists in Hasura console config v1, but not anymore on config v2.
+The module metadata should be upgradable too, which implies an incremental metadata system that exists in Hasura console config v1, but not anymore on config v2.
 
 ### Uninstallation
 
